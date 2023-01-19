@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JensenBank.Core\JensenBank.Core.csproj" />
+    <ProjectReference Include="..\JensenBank.Repository\JensenBank.Repository.csproj" />
+  </ItemGroup>
+
+</Project>
