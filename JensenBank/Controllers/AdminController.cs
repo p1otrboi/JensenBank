@@ -1,4 +1,6 @@
-﻿using JensenBank.Service.Services;
+﻿using JensenBank.Core.Dto;
+using JensenBank.Service.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Domain;
 
@@ -9,10 +11,12 @@ namespace JensenBank.API.Controllers
     public class AdminController : ControllerBase
     {
         private readonly ICustomerService _customerService;
+        private readonly IAdminService _adminService;
 
-        public AdminController(ICustomerService customerService)
+        public AdminController(ICustomerService customerService, IAdminService adminService)
         {
             _customerService = customerService;
+            _adminService = adminService;
         }
 
         [HttpPost("customer")]
@@ -20,9 +24,16 @@ namespace JensenBank.API.Controllers
         {
             try
             {
-                var createdCustomer = await _customerService.AddAsync(customer);
+                //var createdCustomer = await _customerService.AddAsync(customer);
 
-                return Ok(createdCustomer);
+                //return Ok(createdCustomer);
+
+                LoginRequestDto userinfo = new()
+                { Username = "testing", Password= "testing" };
+
+                var result = await _adminService.CreateCustomer(customer, userinfo);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {

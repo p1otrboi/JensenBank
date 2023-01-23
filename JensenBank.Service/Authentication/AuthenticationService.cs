@@ -26,7 +26,7 @@ public class AuthenticationService : IAuthenticationService
 
         if (dbUser is null)
         {
-            throw new Exception("Invalid username.");
+            throw new Exception("User not found.");
         }
 
         var salt = Convert.FromHexString(dbUser.PW_Salt);
