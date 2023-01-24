@@ -14,7 +14,17 @@ public class AccountRepo : IAccountRepo
     {
         _context = context;
     }
+    public async Task<decimal> GetBalanceAsync(int accountId)
+    {
+        var sql = $"SELECT Balance FROM Accounts WHERE AccountId = {accountId}";
+        
+        using (var db = _context.CreateConnection())
+        {
+            var balance = await db.QueryFirstOrDefaultAsync<decimal>(sql);
 
+            return balance;
+        }
+    }
     public async Task<Account> GetByIdAsync(int id)
     {
         var sql = $"SELECT * FROM Accounts WHERE AccountId = {id}";
@@ -29,7 +39,7 @@ public class AccountRepo : IAccountRepo
     public async Task<int> AddAsync(AccountForCreationDto account)
     {
         var sql = $"INSERT INTO Accounts (Frequency, Created, Balance, AccountTypesId) " +
-            $"VALUES ('{account.Frequency}', GETDATE(), 0, {account.AccountTypeId}) " +
+            $"VALUES ('{account.Frequency}', CONVERT(VARCHAR(10), getdate(), 111), 0, {account.AccountTypeId}) " +
             $"SELECT Scope_identity()";
 
         using (var db = _context.CreateConnection())

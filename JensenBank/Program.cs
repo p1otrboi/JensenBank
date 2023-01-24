@@ -16,10 +16,13 @@ builder.Services.AddScoped<ICustomerRepo, CustomerRepo>();
 builder.Services.AddScoped<IAccountRepo, AccountRepo>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IDispositionRepo, DispositionRepo>();
+builder.Services.AddScoped<ILoanRepo, LoanRepo>();
+builder.Services.AddScoped<ITransactionRepo, TransactionRepo>();
 
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddScoped<IPasswordEncryption, PasswordEncryption>();
 

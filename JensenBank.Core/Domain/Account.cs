@@ -6,7 +6,7 @@ public partial class Account
 
     public required string Frequency { get; set; }
 
-    public DateOnly Created { get; set; }
+    public DateTime Created { get; set; }
 
     public decimal Balance { get; set; }
 

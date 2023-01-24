@@ -1,4 +1,5 @@
-﻿using JensenBank.Service.Services;
+﻿using JensenBank.Core.Dto;
+using JensenBank.Service.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Domain;
@@ -23,6 +24,21 @@ public class AdminController : ControllerBase
         try
         {
             var result = await _adminService.CreateCustomer(customer);
+
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost("loan")]
+    public async Task<IActionResult> CreateLoan(LoanForCreationDto loan)
+    {
+        try
+        {
+            var result = await _adminService.CreateLoan(loan);
 
             return Ok(result);
         }
