@@ -1,6 +1,6 @@
 ﻿using JensenBank.Core.Dto;
 
-namespace JensenBank.Service.Services
+namespace JensenBank.Application.Services
 {
     public interface ICustomerService
     {

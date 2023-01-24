@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JensenBank.Service\JensenBank.Service.csproj" />
+    <ProjectReference Include="..\JensenBank.Service\JensenBank.Application.csproj" />
   </ItemGroup>
 
 </Project>

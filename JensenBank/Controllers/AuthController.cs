@@ -1,9 +1,9 @@
-﻿using JensenBank.Core.Dto;
-using JensenBank.Service.Authentication;
+﻿using JensenBank.Application.Authentication;
+using JensenBank.Core.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JensenBank.API.Controllers
+namespace JensenBank.WebApi.Controllers
 {
     [Route("api/auth")]
     [ApiController]

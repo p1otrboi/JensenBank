@@ -1,7 +1,7 @@
 ﻿using JensenBank.Core.Domain;
 using Models.Domain;
 
-namespace JensenBank.Repository.Authentication;
+namespace JensenBank.Infrastructure.Authentication;
 
 public interface IJwtTokenGenerator
 {

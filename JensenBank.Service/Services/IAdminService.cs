@@ -1,7 +1,7 @@
 ﻿using JensenBank.Core.Dto;
 using Models.Domain;
 
-namespace JensenBank.Service.Services
+namespace JensenBank.Application.Services
 {
     public interface IAdminService
     {

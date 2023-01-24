@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JensenBank.Service.Services
+namespace JensenBank.Application.Services
 {
     public interface IUserService
     {

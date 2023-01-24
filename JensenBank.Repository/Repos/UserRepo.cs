@@ -1,10 +1,10 @@
 ﻿using Dapper;
 using JensenBank.Core.Domain;
 using JensenBank.Core.Dto;
-using JensenBank.Repository.Context;
-using JensenBank.Repository.Interfaces;
+using JensenBank.Infrastructure.Context;
+using JensenBank.Infrastructure.Interfaces;
 
-namespace JensenBank.Repository.Repos;
+namespace JensenBank.Infrastructure.Repos;
 
 public class UserRepo : IUserRepo
 {
@@ -37,7 +37,7 @@ public class UserRepo : IUserRepo
 
         using (var db = _context.CreateConnection())
         {
-            var user = await db.QuerySingleOrDefaultAsync<User>(sql);  
+            var user = await db.QuerySingleOrDefaultAsync<User>(sql);
 
             return user;
         }

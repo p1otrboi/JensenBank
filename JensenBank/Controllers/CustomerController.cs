@@ -1,9 +1,9 @@
-﻿using JensenBank.Core.Dto;
-using JensenBank.Service.Services;
+﻿using JensenBank.Application.Services;
+using JensenBank.Core.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JensenBank.API.Controllers
+namespace JensenBank.WebApi.Controllers
 {
     [Authorize(Roles = "Customer")]
     [Route("api/customer")]

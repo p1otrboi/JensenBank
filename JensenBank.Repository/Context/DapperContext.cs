@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System.Data;
 
-namespace JensenBank.Repository.Context;
+namespace JensenBank.Infrastructure.Context;
 
 public class DapperContext
 {

@@ -1,4 +1,4 @@
-﻿namespace JensenBank.Repository.Authentication;
+﻿namespace JensenBank.Infrastructure.Authentication;
 
 public interface IPasswordEncryption
 {

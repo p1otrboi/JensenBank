@@ -1,7 +1,7 @@
 ﻿using JensenBank.Core.Dto;
 using Microsoft.Identity.Client;
 
-namespace JensenBank.Service.Authentication;
+namespace JensenBank.Application.Authentication;
 
 public interface IAuthenticationService
 {

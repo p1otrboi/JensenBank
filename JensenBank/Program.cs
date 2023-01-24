@@ -1,9 +1,9 @@
-using JensenBank.Repository.Authentication;
-using JensenBank.Repository.Context;
-using JensenBank.Repository.Interfaces;
-using JensenBank.Repository.Repos;
-using JensenBank.Service.Authentication;
-using JensenBank.Service.Services;
+using JensenBank.Application.Authentication;
+using JensenBank.Application.Services;
+using JensenBank.Infrastructure.Authentication;
+using JensenBank.Infrastructure.Context;
+using JensenBank.Infrastructure.Interfaces;
+using JensenBank.Infrastructure.Repos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;

@@ -1,11 +1,11 @@
 ﻿using Dapper;
 using JensenBank.Core.Dto;
-using JensenBank.Repository.Context;
-using JensenBank.Repository.Interfaces;
 using System.Data;
 using Models.Domain;
+using JensenBank.Infrastructure.Context;
+using JensenBank.Infrastructure.Interfaces;
 
-namespace JensenBank.Repository.Repos
+namespace JensenBank.Infrastructure.Repos
 {
     public class LoanRepo : ILoanRepo
     {
@@ -29,7 +29,7 @@ namespace JensenBank.Repository.Repos
 
         public async Task<int> AddAsync(LoanForCreationDto loan)
         {
-            decimal payments = loan.Amount/loan.Duration_Months;
+            decimal payments = loan.Amount / loan.Duration_Months;
 
             var sp = "CreateLoan";
 

@@ -1,7 +1,7 @@
 ﻿using JensenBank.Core.Domain;
 using JensenBank.Core.Dto;
 
-namespace JensenBank.Repository.Interfaces;
+namespace JensenBank.Infrastructure.Interfaces;
 
 public interface IUserRepo
 {

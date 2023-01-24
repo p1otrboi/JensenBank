@@ -1,10 +1,10 @@
 ﻿using Dapper;
 using JensenBank.Core.Dto;
-using JensenBank.Repository.Context;
-using JensenBank.Repository.Interfaces;
+using JensenBank.Infrastructure.Context;
+using JensenBank.Infrastructure.Interfaces;
 using System.Data;
 
-namespace JensenBank.Repository.Repos
+namespace JensenBank.Infrastructure.Repos
 {
     public class TransactionRepo : ITransactionRepo
     {

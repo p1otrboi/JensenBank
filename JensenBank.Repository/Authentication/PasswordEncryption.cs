@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace JensenBank.Repository.Authentication;
+namespace JensenBank.Infrastructure.Authentication;
 
 public class PasswordEncryption : IPasswordEncryption
 {

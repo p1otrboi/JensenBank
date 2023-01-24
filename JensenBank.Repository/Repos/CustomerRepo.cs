@@ -1,9 +1,9 @@
 ﻿using Dapper;
-using JensenBank.Repository.Context;
-using JensenBank.Repository.Interfaces;
+using JensenBank.Infrastructure.Context;
+using JensenBank.Infrastructure.Interfaces;
 using Models.Domain;
 
-namespace JensenBank.Repository.Repos;
+namespace JensenBank.Infrastructure.Repos;
 
 public class CustomerRepo : ICustomerRepo
 {

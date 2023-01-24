@@ -1,8 +1,8 @@
 ﻿using JensenBank.Core.Dto;
-using JensenBank.Repository.Interfaces;
+using JensenBank.Infrastructure.Interfaces;
 using Models.Domain;
 
-namespace JensenBank.Service.Services
+namespace JensenBank.Application.Services
 {
     public class CustomerService : ICustomerService
     {

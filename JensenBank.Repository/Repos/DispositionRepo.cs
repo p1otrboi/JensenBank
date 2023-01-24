@@ -1,8 +1,8 @@
 ﻿using Dapper;
-using JensenBank.Repository.Context;
-using JensenBank.Repository.Interfaces;
+using JensenBank.Infrastructure.Context;
+using JensenBank.Infrastructure.Interfaces;
 
-namespace JensenBank.Repository.Repos;
+namespace JensenBank.Infrastructure.Repos;
 
 public class DispositionRepo : IDispositionRepo
 {

@@ -1,8 +1,8 @@
 ﻿using JensenBank.Core.Dto;
-using JensenBank.Repository.Authentication;
-using JensenBank.Repository.Interfaces;
+using JensenBank.Infrastructure.Authentication;
+using JensenBank.Infrastructure.Interfaces;
 
-namespace JensenBank.Service.Authentication;
+namespace JensenBank.Application.Authentication;
 
 public class AuthenticationService : IAuthenticationService
 {

@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JensenBank.Core\JensenBank.Core.csproj" />
-    <ProjectReference Include="..\JensenBank.Repository\JensenBank.Repository.csproj" />
+    <ProjectReference Include="..\JensenBank.Repository\JensenBank.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

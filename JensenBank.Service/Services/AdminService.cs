@@ -1,9 +1,9 @@
 ﻿using JensenBank.Core.Dto;
-using JensenBank.Repository.Authentication;
-using JensenBank.Repository.Interfaces;
+using JensenBank.Infrastructure.Authentication;
+using JensenBank.Infrastructure.Interfaces;
 using Models.Domain;
 
-namespace JensenBank.Service.Services;
+namespace JensenBank.Application.Services;
 
 public class AdminService : IAdminService
 {
@@ -16,7 +16,7 @@ public class AdminService : IAdminService
     private readonly IPasswordEncryption _pwEncryption;
 
     public AdminService(ICustomerRepo customerRepo, ITransactionRepo transactionRepo,
-        IUserRepo userRepo, IAccountRepo accountRepo, 
+        IUserRepo userRepo, IAccountRepo accountRepo,
         IDispositionRepo dispositionRepo, IPasswordEncryption pwEncryption, ILoanRepo loanRepo)
     {
         _customerRepo = customerRepo;

@@ -1,7 +1,7 @@
 ﻿using JensenBank.Core.Dto;
 using Models.Domain;
 
-namespace JensenBank.Repository.Interfaces
+namespace JensenBank.Infrastructure.Interfaces
 {
     public interface ILoanRepo
     {

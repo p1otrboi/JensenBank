@@ -1,10 +1,10 @@
 ﻿using Dapper;
 using JensenBank.Core.Dto;
-using JensenBank.Repository.Context;
-using JensenBank.Repository.Interfaces;
+using JensenBank.Infrastructure.Context;
+using JensenBank.Infrastructure.Interfaces;
 using Models.Domain;
 
-namespace JensenBank.Repository.Repos;
+namespace JensenBank.Infrastructure.Repos;
 
 public class AccountRepo : IAccountRepo
 {
@@ -17,7 +17,7 @@ public class AccountRepo : IAccountRepo
     public async Task<decimal> GetBalanceAsync(int accountId)
     {
         var sql = $"SELECT Balance FROM Accounts WHERE AccountId = {accountId}";
-        
+
         using (var db = _context.CreateConnection())
         {
             var balance = await db.QueryFirstOrDefaultAsync<decimal>(sql);
