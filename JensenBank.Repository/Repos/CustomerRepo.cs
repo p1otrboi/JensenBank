@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using JensenBank.Repository.Context;
 using JensenBank.Repository.Interfaces;
-using Microsoft.Identity.Client;
 using Models.Domain;
 
 namespace JensenBank.Repository.Repos;
