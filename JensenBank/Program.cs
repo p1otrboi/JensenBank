@@ -1,9 +1,5 @@
-using JensenBank.Application.Authentication;
-using JensenBank.Application.Services;
-using JensenBank.Infrastructure.Authentication;
-using JensenBank.Infrastructure.Context;
-using JensenBank.Infrastructure.Interfaces;
-using JensenBank.Infrastructure.Repos;
+using JensenBank.Application;
+using JensenBank.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -12,22 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddSingleton<DapperContext>();
-
-builder.Services.AddScoped<ICustomerRepo, CustomerRepo>();
-builder.Services.AddScoped<IAccountRepo, AccountRepo>();
-builder.Services.AddScoped<IUserRepo, UserRepo>();
-builder.Services.AddScoped<IDispositionRepo, DispositionRepo>();
-builder.Services.AddScoped<ILoanRepo, LoanRepo>();
-builder.Services.AddScoped<ITransactionRepo, TransactionRepo>();
-
-builder.Services.AddScoped<ICustomerService, CustomerService>();
-builder.Services.AddScoped<IAdminService, AdminService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-
-builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
-builder.Services.AddScoped<IPasswordEncryption, PasswordEncryption>();
+builder.Services
+    .AddApplication()
+    .AddInfrastructure(builder.Configuration);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -50,10 +33,14 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.MapControllers();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseSwagger();
-app.UseSwaggerUI();
+app.MapControllers();
 
 app.Run();
