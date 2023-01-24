@@ -1,14 +1,9 @@
-﻿using Models.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using JensenBank.Core.Dto;
 
 namespace JensenBank.Service.Services
 {
     public interface ICustomerService
     {
-        public Task<Customer> AddAsync(CustomerForCreationDto customer);
+        public Task<List<AccountSummaryDto>> GetAccountSummary(int customerId);
     }
 }

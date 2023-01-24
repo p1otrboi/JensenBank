@@ -77,4 +77,19 @@ public class AccountRepo : IAccountRepo
             return balance;
         }
     }
+
+    public async Task<List<AccountSummaryDto>> GetAccountSummary(int customerId)
+    {
+        var sql = $"SELECT A.AccountId, A.Balance, Acct.TypeName as 'Account_Type' FROM Accounts A " +
+            $"INNER JOIN Dispositions D ON D.AccountId = A.AccountId " +
+            $"INNER JOIN AccountTypes AccT ON AccT.AccountTypeId = A.AccountTypesId " +
+            $"WHERE D.CustomerId = {customerId}";
+
+        using (var db = _context.CreateConnection())
+        {
+            var result = await db.QueryAsync<AccountSummaryDto>(sql);
+
+            return result.ToList();
+        }
+    }
 }

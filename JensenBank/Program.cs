@@ -10,6 +10,8 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddSingleton<DapperContext>();
 
 builder.Services.AddScoped<ICustomerRepo, CustomerRepo>();
@@ -21,6 +23,7 @@ builder.Services.AddScoped<ITransactionRepo, TransactionRepo>();
 
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();

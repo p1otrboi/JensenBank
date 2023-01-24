@@ -1,4 +1,5 @@
-﻿using JensenBank.Repository.Interfaces;
+﻿using JensenBank.Core.Dto;
+using JensenBank.Repository.Interfaces;
 using Models.Domain;
 
 namespace JensenBank.Service.Services
@@ -6,19 +7,19 @@ namespace JensenBank.Service.Services
     public class CustomerService : ICustomerService
     {
         private readonly ICustomerRepo _customerRepo;
+        private readonly IAccountRepo _accountRepo;
 
-        public CustomerService(ICustomerRepo cuistomerRepo)
+        public CustomerService(ICustomerRepo cuistomerRepo, IAccountRepo accountRepo)
         {
             _customerRepo = cuistomerRepo;
+            _accountRepo = accountRepo;
         }
 
-        public async Task<Customer> AddAsync(CustomerForCreationDto c)
+        public async Task<List<AccountSummaryDto>> GetAccountSummary(int customerId)
         {
-            int createdCustomerId = await _customerRepo.AddAsync(c);
+            var result = await _accountRepo.GetAccountSummary(customerId);
 
-            var createdCustomer = await _customerRepo.GetByIdAsync(createdCustomerId);
-
-            return createdCustomer;
+            return result;
         }
     }
 }
