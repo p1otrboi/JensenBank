@@ -6,13 +6,14 @@ namespace JensenBank.Application.Services
 {
     public class CustomerService : ICustomerService
     {
-        private readonly ICustomerRepo _customerRepo;
         private readonly IAccountRepo _accountRepo;
         private readonly IDispositionRepo _dispositionRepo;
+        private readonly ICustomerRepo _customerRepo;
 
-        public CustomerService(ICustomerRepo cuistomerRepo, IAccountRepo accountRepo, IDispositionRepo dispositionRepo)
+
+        public CustomerService(ICustomerRepo customerRepo, IAccountRepo accountRepo, IDispositionRepo dispositionRepo)
         {
-            _customerRepo = cuistomerRepo;
+            _customerRepo = customerRepo;
             _accountRepo = accountRepo;
             _dispositionRepo = dispositionRepo;
         }
@@ -33,6 +34,20 @@ namespace JensenBank.Application.Services
             var accounts = await _accountRepo.GetAccountSummary(customerId);
 
             return accounts;
+        }
+
+        public async Task<AccountTransactionsDto> GetAccountWithTransactions(int customerId, int accountId)
+        {
+            var accounts = await _accountRepo.GetAccountSummary(customerId);
+
+            if (accounts.Find(x => x.AccountId == accountId) is null) 
+            {
+                throw new Exception("This is not your account.");
+            }
+
+            var result = await _accountRepo.GetAccountWithTransactions(accountId);
+
+            return result;
         }
     }
 }

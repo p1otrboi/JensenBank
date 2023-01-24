@@ -92,4 +92,31 @@ public class AccountRepo : IAccountRepo
             return result.ToList();
         }
     }
+
+    public async Task<AccountTransactionsDto> GetAccountWithTransactions(int accountId)
+    {
+        var sql = $"SELECT * FROM Accounts " +
+            $"INNER JOIN Transactions ON Transactions.AccountId = Accounts.AccountId " +
+            $"WHERE Accounts.AccountId = {accountId}";
+
+        using (var db = _context.CreateConnection())
+        {
+            var lookup = new Dictionary<int, AccountTransactionsDto>();
+
+            var result = await db.QueryAsync<AccountTransactionsDto, Transaction, AccountTransactionsDto>(sql, (account, transaction) =>
+            {
+                if (!lookup.TryGetValue(account.AccountId, out AccountTransactionsDto a))
+                    lookup.Add(account.AccountId, a = account);
+
+                if (account.Transactions is null)
+                    a.Transactions = new List<Transaction>();
+
+                a.Transactions.Add(transaction);
+
+                return a;
+            }, splitOn: "TransactionId");
+
+            return result.First();
+        }
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using JensenBank.Application.Services;
 using JensenBank.Core.Dto;
+using JensenBank.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,11 +13,13 @@ namespace JensenBank.WebApi.Controllers
     {
         private readonly IUserService _userService;
         private readonly ICustomerService _customerService;
+        private readonly IAccountRepo _accountRepo;
 
-        public CustomerController(IUserService userService, ICustomerService customerService)
+        public CustomerController(IUserService userService, ICustomerService customerService, IAccountRepo accountRepo)
         {
             _userService = userService;
             _customerService = customerService;
+            _accountRepo = accountRepo;
         }
 
         [HttpGet]
@@ -47,6 +50,22 @@ namespace JensenBank.WebApi.Controllers
 
                 return Ok(result);
 
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("account/{accountId}")]
+        public async Task<IActionResult> GetAccountTransactions(int accountId)
+        {
+            try
+            {
+                int customerId = _userService.GetCustomerId();
+
+                var result = await _customerService.GetAccountWithTransactions(customerId, accountId);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {

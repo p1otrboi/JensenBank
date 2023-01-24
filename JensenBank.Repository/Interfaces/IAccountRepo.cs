@@ -11,5 +11,6 @@ namespace JensenBank.Infrastructure.Interfaces
         public Task<decimal> AddAmountToAccountBalanceAsync(int accountId, decimal amount);
         public Task<decimal> GetBalanceAsync(int accountId);
         public Task<List<AccountSummaryDto>> GetAccountSummary(int customerId);
+        public Task<AccountTransactionsDto> GetAccountWithTransactions(int accountId);
     }
 }
