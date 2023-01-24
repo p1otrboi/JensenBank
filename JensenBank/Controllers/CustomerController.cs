@@ -1,4 +1,4 @@
-﻿using JensenBank.Repository.Interfaces;
+﻿using JensenBank.Core.Dto;
 using JensenBank.Service.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,12 +11,12 @@ namespace JensenBank.API.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IAccountRepo _accountRepo;
+        private readonly ICustomerService _customerService;
 
-        public CustomerController(IUserService userService, IAccountRepo accountRepo)
+        public CustomerController(IUserService userService, ICustomerService customerService)
         {
             _userService = userService;
-            _accountRepo = accountRepo;
+            _customerService = customerService;
         }
 
         [HttpGet]
@@ -26,9 +26,27 @@ namespace JensenBank.API.Controllers
             {
                 int id = _userService.GetCustomerId();
 
-                var result = await _accountRepo.GetAccountSummary(id);
+                var result = await _customerService.GetAccountSummary(id);
 
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("account")]
+        public async Task<IActionResult> CreateAccount(AccountForCreationDto details)
+        {
+            try
+            {
+                int customerId = _userService.GetCustomerId();
+
+                var result = await _customerService.CreateAccount(customerId, details);
+
+                return Ok(result);
+
             }
             catch (Exception ex)
             {
