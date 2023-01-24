@@ -1,9 +1,10 @@
 ﻿using Dapper;
 using JensenBank.Repository.Context;
+using JensenBank.Repository.Interfaces;
 
 namespace JensenBank.Repository.Repos;
 
-public class DispositionRepo
+public class DispositionRepo : IDispositionRepo
 {
     private readonly DapperContext _context;
     public DispositionRepo(DapperContext context)

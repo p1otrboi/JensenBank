@@ -13,13 +13,13 @@ public class JwtTokenGenerator : IJwtTokenGenerator
     {
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes("TraderaLiteSecretKey")),
+                Encoding.UTF8.GetBytes("JensenBankAppSecret")),
             SecurityAlgorithms.HmacSha256);
 
         var claims = new[]
         {
             new Claim("CustomerId", c.CustomerId.ToString()),
-            new Claim("Role", u.Role_Type),
+            new Claim(ClaimTypes.Role, u.Role_Type),
             new Claim("Username", u.Username),
             new Claim("Givenname", c.Givenname),
             new Claim("Surname", c.Surname),
@@ -29,7 +29,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         var securityToken = new JwtSecurityToken(
             issuer: "http://localhost:5281/",
             audience: "http://localhost:5281/",
-            expires: DateTime.Now.AddMinutes(60),
+            expires: DateTime.Now.AddMinutes(20),
             claims: claims,
             signingCredentials: signingCredentials);
 
