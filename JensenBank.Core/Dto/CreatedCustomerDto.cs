@@ -6,6 +6,7 @@ namespace JensenBank.Core.Dto
     public class CreatedCustomerDto
     {
         public Customer? Customer_Details { get; set; }
-        public User? User_Details { get; set; }
+        public string? Username { get; set; }
+        public string? Password { get; set; }
     }
 }

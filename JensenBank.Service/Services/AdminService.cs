@@ -24,7 +24,7 @@ public class AdminService : IAdminService
         _pwEncryption = pwEncryption;
     }
 
-    public async Task<CreatedCustomerDto> CreateCustomer(CustomerForCreationDto customer, LoginRequestDto userinfo)
+    public async Task<CreatedCustomerDto> CreateCustomer(CustomerForCreationDto customer)
     {
         var customerId = await _customerRepo.AddAsync(customer);
 
@@ -38,26 +38,26 @@ public class AdminService : IAdminService
 
         await _dispositionRepo.AddAsync(customerId, accountId, "OWNER");
 
-        var hash = _pwEncryption.HashPassword(userinfo.Password, out byte[] salt);
+        var hash = _pwEncryption.HashPassword(customer.Desired_Password, out byte[] salt);
 
         DbUserForCreationDto user = new()
         {
             CustomerId = customerId,
-            Username = userinfo.Username,
+            Username = customer.Desired_Username,
             PW_Hash = hash,
             PW_Salt = Convert.ToHexString(salt),
             User_RoleId = 2
         };
 
-        var userId = await _userRepo.AddAsync(user);
+        await _userRepo.AddAsync(user);
 
         var createdCustomer = await _customerRepo.GetByIdAsync(customerId);
-        var createdUser = await _userRepo.GetByUsername(user.Username);
 
         CreatedCustomerDto result = new()
         {
             Customer_Details = createdCustomer,
-            User_Details = createdUser
+            Username = customer.Desired_Username,
+            Password = customer.Desired_Password
         };
 
         return result;

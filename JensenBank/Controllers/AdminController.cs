@@ -1,44 +1,34 @@
-﻿using JensenBank.Core.Dto;
-using JensenBank.Service.Services;
+﻿using JensenBank.Service.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Domain;
 
-namespace JensenBank.API.Controllers
+namespace JensenBank.API.Controllers;
+
+[Authorize(Roles = "Admin")]
+[Route("api/admin")]
+[ApiController]
+public class AdminController : ControllerBase
 {
-    [Route("api/admin")]
-    [ApiController]
-    public class AdminController : ControllerBase
+    private readonly IAdminService _adminService;
+
+    public AdminController(IAdminService adminService)
     {
-        private readonly ICustomerService _customerService;
-        private readonly IAdminService _adminService;
+        _adminService = adminService;
+    }
 
-        public AdminController(ICustomerService customerService, IAdminService adminService)
+    [HttpPost("customer")]
+    public async Task<IActionResult> AddCustomer(CustomerForCreationDto customer)
+    {
+        try
         {
-            _customerService = customerService;
-            _adminService = adminService;
+            var result = await _adminService.CreateCustomer(customer);
+
+            return Ok(result);
         }
-
-        [HttpPost("customer")]
-        public async Task<IActionResult> AddCustomer(CustomerForCreationDto customer)
+        catch (Exception ex)
         {
-            try
-            {
-                //var createdCustomer = await _customerService.AddAsync(customer);
-
-                //return Ok(createdCustomer);
-
-                LoginRequestDto userinfo = new()
-                { Username = "testing", Password= "testing" };
-
-                var result = await _adminService.CreateCustomer(customer, userinfo);
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return BadRequest(ex.Message);
         }
     }
 }

@@ -18,11 +18,13 @@ public class CustomerForCreationDto
 
     public required string CountryCode { get; set; }
 
-    public DateOnly Birthday { get; set; }
+    public required DateOnly Birthday { get; set; }
 
-    public string? Telephonecountrycode { get; set; }
+    public required string Telephonecountrycode { get; set; }
 
-    public string? Telephonenumber { get; set; }
+    public required string Telephonenumber { get; set; }
 
-    public string? Emailaddress { get; set; }
+    public required string Emailaddress { get; set; }
+    public required string Desired_Username { get; set; }
+    public required string Desired_Password { get; set; }
 }

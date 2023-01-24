@@ -5,6 +5,6 @@ namespace JensenBank.Service.Services
 {
     public interface IAdminService
     {
-        public Task<CreatedCustomerDto> CreateCustomer(CustomerForCreationDto customer, LoginRequestDto userinfo);
+        public Task<CreatedCustomerDto> CreateCustomer(CustomerForCreationDto customer);
     }
 }
