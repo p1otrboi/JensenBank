@@ -82,7 +82,7 @@ public class AdminService : IAdminService
         {
             AccountId = loan.AccountId,
             Type = "Credit",
-            Operation = "Credit in Cash",
+            Operation = "Loan",
             Amount = loan.Amount,
             Balance = balance
         };
