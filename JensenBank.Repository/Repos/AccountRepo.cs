@@ -78,6 +78,20 @@ public class AccountRepo : IAccountRepo
         }
     }
 
+    public async Task<decimal> SubAmountFromAccountBalanceAsync(int accountId, decimal amount)
+    {
+        var sql = $"UPDATE Accounts SET Balance = Balance - {amount} " +
+            $"WHERE AccountId = {accountId} " +
+            $"SELECT Balance FROM Accounts WHERE AccountId = {accountId}";
+
+        using (var db = _context.CreateConnection())
+        {
+            var balance = await db.QuerySingleAsync<decimal>(sql);
+
+            return balance;
+        }
+    }
+
     public async Task<List<AccountSummaryDto>> GetAccountSummary(int customerId)
     {
         var sql = $"SELECT A.AccountId, A.Balance, Acct.TypeName as 'Account_Type' FROM Accounts A " +

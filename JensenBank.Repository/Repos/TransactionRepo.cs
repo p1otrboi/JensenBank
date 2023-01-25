@@ -4,35 +4,36 @@ using JensenBank.Infrastructure.Context;
 using JensenBank.Infrastructure.Interfaces;
 using System.Data;
 
-namespace JensenBank.Infrastructure.Repos
+namespace JensenBank.Infrastructure.Repos;
+
+public class TransactionRepo : ITransactionRepo
 {
-    public class TransactionRepo : ITransactionRepo
+    private readonly DapperContext _context;
+
+    public TransactionRepo(DapperContext dapperContext)
     {
-        private readonly DapperContext _context;
+        _context = dapperContext;
+    }
 
-        public TransactionRepo(DapperContext dapperContext)
+    public async Task<int> AddAsync(TransactionForCreationDto trans)
+    {
+        var sp = "CreateTransaction";
+
+        var param = new DynamicParameters();
+
+        param.Add("@AccountId", trans.AccountId);
+        param.Add("@Type", trans.Type);
+        param.Add("@Operation", trans.Operation);
+        param.Add("@Amount", trans.Amount);
+        param.Add("@Balance", trans.Balance);
+        if (trans.Account is not null)
+            param.Add("@Account", trans.Account);
+
+        using (var db = _context.CreateConnection())
         {
-            _context = dapperContext;
-        }
+            var id = await db.ExecuteScalarAsync<int>(sp, param, commandType: CommandType.StoredProcedure);
 
-        public async Task<int> AddAsync(TransactionForCreationDto trans)
-        {
-            var sp = "CreateTransaction";
-
-            var param = new DynamicParameters();
-
-            param.Add("@AccountId", trans.AccountId);
-            param.Add("@Type", trans.Type);
-            param.Add("@Operation", trans.Operation);
-            param.Add("@Amount", trans.Amount);
-            param.Add("@Balance", trans.Balance);
-
-            using (var db = _context.CreateConnection())
-            {
-                var id = await db.ExecuteScalarAsync<int>(sp, param, commandType: CommandType.StoredProcedure);
-
-                return id;
-            }
+            return id;
         }
     }
 }

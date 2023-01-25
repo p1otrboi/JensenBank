@@ -13,13 +13,11 @@ namespace JensenBank.WebApi.Controllers
     {
         private readonly IUserService _userService;
         private readonly ICustomerService _customerService;
-        private readonly IAccountRepo _accountRepo;
 
-        public CustomerController(IUserService userService, ICustomerService customerService, IAccountRepo accountRepo)
+        public CustomerController(IUserService userService, ICustomerService customerService)
         {
             _userService = userService;
             _customerService = customerService;
-            _accountRepo = accountRepo;
         }
 
         [HttpGet]
@@ -64,6 +62,23 @@ namespace JensenBank.WebApi.Controllers
                 int customerId = _userService.GetCustomerId();
 
                 var result = await _customerService.GetAccountWithTransactions(customerId, accountId);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("transfer")]
+        public async Task<IActionResult> TransferMoney(MoneyTransferDto details)
+        {
+            try
+            {
+                int customerId = _userService.GetCustomerId();
+
+                var result = await _customerService.TransferMoney(customerId, details);
 
                 return Ok(result);
             }

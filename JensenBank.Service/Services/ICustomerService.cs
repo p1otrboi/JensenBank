@@ -7,5 +7,6 @@ namespace JensenBank.Application.Services
         public Task<List<AccountSummaryDto>> GetAccountSummary(int customerId);
         public Task<AccountTransactionsDto> GetAccountWithTransactions(int customerId, int accountId);
         public Task<List<AccountSummaryDto>> CreateAccount(int customerId, AccountForCreationDto details);
+        public Task<MoneyTransferDto> TransferMoney(int customerId, MoneyTransferDto details);
     }
 }
