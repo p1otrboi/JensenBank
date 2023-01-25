@@ -49,8 +49,6 @@ public class CustomerService : ICustomerService
 
         var result = await _accountRepo.GetAccountWithTransactions(accountId);
 
-        result.Transactions.OrderByDescending();
-
         return result;
     }
 
@@ -63,7 +61,10 @@ public class CustomerService : ICustomerService
         {
             throw new Exception("Transaction failed. This is not your bank account.");
         }
+        var recipentAccount = await _accountRepo.GetByIdAsync(details.To_Account);
+        if (recipentAccount is null) throw new Exception("Recipent account with given account.no does not exist.");
         // check funds
+        if (details.Amount < 1) throw new Exception("Transaction failed. Smallest amount to transfer is $1.");
         if (details.Amount > accounts.First(x => x.AccountId == details.From_Account).Balance)
         {
             throw new Exception("Non-sufficent funds.");

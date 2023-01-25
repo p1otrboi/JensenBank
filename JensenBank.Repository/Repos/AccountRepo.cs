@@ -111,7 +111,8 @@ public class AccountRepo : IAccountRepo
     {
         var sql = $"SELECT * FROM Accounts " +
             $"INNER JOIN Transactions ON Transactions.AccountId = Accounts.AccountId " +
-            $"WHERE Accounts.AccountId = {accountId}";
+            $"WHERE Accounts.AccountId = {accountId} " +
+            $"ORDER BY Transactions.TransactionId DESC";
 
         using (var db = _context.CreateConnection())
         {
