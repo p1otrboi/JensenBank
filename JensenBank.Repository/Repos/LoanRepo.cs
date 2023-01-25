@@ -1,9 +1,9 @@
 ﻿using Dapper;
 using JensenBank.Core.Dto;
-using System.Data;
-using Models.Domain;
 using JensenBank.Infrastructure.Context;
 using JensenBank.Infrastructure.Interfaces;
+using Models.Domain;
+using System.Data;
 
 namespace JensenBank.Infrastructure.Repos
 {

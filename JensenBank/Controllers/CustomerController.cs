@@ -1,6 +1,5 @@
 ﻿using JensenBank.Application.Services;
 using JensenBank.Core.Dto;
-using JensenBank.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

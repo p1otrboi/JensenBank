@@ -1,5 +1,4 @@
 ﻿using JensenBank.Core.Dto;
-using Microsoft.Identity.Client;
 
 namespace JensenBank.Application.Authentication;
 

@@ -1,5 +1,4 @@
-﻿using JensenBank.Core.Domain;
-using Models.Domain;
+﻿using Models.Domain;
 
 namespace JensenBank.Core.Dto
 {

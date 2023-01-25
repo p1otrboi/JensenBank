@@ -1,6 +1,5 @@
 ﻿using JensenBank.Application.Authentication;
 using JensenBank.Core.Dto;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JensenBank.WebApi.Controllers

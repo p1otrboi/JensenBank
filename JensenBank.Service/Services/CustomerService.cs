@@ -11,7 +11,7 @@ public class CustomerService : ICustomerService
     private readonly ITransactionRepo _transactionRepo;
 
 
-    public CustomerService(ICustomerRepo customerRepo, IAccountRepo accountRepo, 
+    public CustomerService(ICustomerRepo customerRepo, IAccountRepo accountRepo,
         IDispositionRepo dispositionRepo, ITransactionRepo transactionRepo)
     {
         _customerRepo = customerRepo;
@@ -42,7 +42,7 @@ public class CustomerService : ICustomerService
     {
         var accounts = await _accountRepo.GetAccountSummary(customerId);
 
-        if (accounts.Find(x => x.AccountId == accountId) is null) 
+        if (accounts.Find(x => x.AccountId == accountId) is null)
         {
             throw new Exception("This is not your account.");
         }

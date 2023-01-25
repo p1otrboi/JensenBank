@@ -14,7 +14,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
 
     public JwtTokenGenerator(IOptions<JwtSettings> jwtOptions)
     {
-        _jwtSettings= jwtOptions.Value;
+        _jwtSettings = jwtOptions.Value;
     }
     public string GenerateToken(Customer c, User u)
     {
