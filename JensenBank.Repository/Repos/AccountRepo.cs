@@ -43,7 +43,7 @@ public class AccountRepo : IAccountRepo
     }
     public async Task<int> AddAsync(AccountForCreationDto account)
     {
-        var sp = "AccountGetById";
+        var sp = "AccountAdd";
         var param = new DynamicParameters();
         param.Add("@Frequency", account.Frequency);
         param.Add("@AccountTypesId", account.AccountTypeId);
@@ -127,13 +127,14 @@ public class AccountRepo : IAccountRepo
 
             var result = await db.QueryAsync<AccountTransactionsDto, Transaction, AccountTransactionsDto>(sp, (account, transaction) =>
             {
-                if (!lookup.TryGetValue(account.AccountId, out AccountTransactionsDto? a))
+                if (!lookup.TryGetValue(account.AccountId, out AccountTransactionsDto a))
                     lookup.Add(account.AccountId, a = account);
 
                 if (account.Transactions is null)
                     a.Transactions = new List<Transaction>();
 
-                a.Transactions.Add(transaction);
+                if (transaction is not null)
+                    a.Transactions.Add(transaction);
 
                 return a;
             }, param, splitOn: "TransactionId", commandType: CommandType.StoredProcedure);

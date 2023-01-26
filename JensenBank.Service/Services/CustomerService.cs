@@ -29,9 +29,9 @@ public class CustomerService : ICustomerService
 
     public async Task<List<AccountSummaryDto>> CreateAccount(int customerId, AccountForCreationDto details)
     {
-        var id = await _accountRepo.AddAsync(details);
+        var accountId = await _accountRepo.AddAsync(details);
 
-        await _dispositionRepo.AddAsync(customerId, id, "OWNER");
+        await _dispositionRepo.AddAsync(customerId, accountId, "OWNER");
 
         var accounts = await _accountRepo.GetAccountSummary(customerId);
 

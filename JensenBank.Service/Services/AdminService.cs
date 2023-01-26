@@ -84,7 +84,8 @@ public class AdminService : IAdminService
             Type = "Credit",
             Operation = "Loan",
             Amount = loan.Amount,
-            Balance = balance
+            Balance = balance,
+            Account = "JensenBank"
         };
 
         await _transactionRepo.AddAsync(trans);

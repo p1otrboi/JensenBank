@@ -18,7 +18,7 @@ public class CustomerForCreationDto
 
     public required string CountryCode { get; set; }
 
-    public required DateOnly Birthday { get; set; }
+    public required DateTime Birthday { get; set; }
 
     public required string Telephonecountrycode { get; set; }
 

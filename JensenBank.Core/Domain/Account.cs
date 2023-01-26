@@ -14,9 +14,5 @@ public partial class Account
 
     public virtual AccountType? AccountTypes { get; set; }
 
-    public virtual ICollection<Disposition> Dispositions { get; } = new List<Disposition>();
-
-    public virtual ICollection<Loan> Loans { get; } = new List<Loan>();
-
     public virtual ICollection<Transaction> Transactions { get; } = new List<Transaction>();
 }
