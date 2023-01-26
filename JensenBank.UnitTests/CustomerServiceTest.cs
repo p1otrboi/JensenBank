@@ -1,10 +1,3 @@
-using JensenBank.Application.Services;
-using JensenBank.Core.Dto;
-using JensenBank.Infrastructure.Interfaces;
-using Microsoft.Identity.Client;
-using Models.Domain;
-using Moq;
-
 namespace JensenBank.UnitTests
 {
     public class CustomerServiceTest
@@ -25,7 +18,7 @@ namespace JensenBank.UnitTests
         {
             var customerId = 1;
             var accountSummaryDto = new List<AccountSummaryDto>();
-            
+
             // Arrange
             _accountRepoMock.Setup(x => x.GetAccountSummary(customerId))
                 .ReturnsAsync(accountSummaryDto);

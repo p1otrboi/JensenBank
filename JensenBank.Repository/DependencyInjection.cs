@@ -34,18 +34,18 @@ namespace JensenBank.Infrastructure
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
-                         .GetBytes(configuration.GetSection("JwtSettings:Secret").Value)),
-                    ValidIssuer = configuration.GetSection("JwtSettings:Issuer").Value,
-                    ValidAudience = configuration.GetSection("JwtSettings:Audience").Value
-                };
-        });
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+                             .GetBytes(configuration.GetSection("JwtSettings:Secret").Value)),
+                        ValidIssuer = configuration.GetSection("JwtSettings:Issuer").Value,
+                        ValidAudience = configuration.GetSection("JwtSettings:Audience").Value
+                    };
+                });
             return services;
         }
     }

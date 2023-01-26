@@ -20,7 +20,7 @@ public class CustomerService : ICustomerService
         _transactionRepo = transactionRepo;
     }
 
-    public async Task <List<AccountSummaryDto>> GetAccountSummary(int customerId)
+    public async Task<List<AccountSummaryDto>> GetAccountSummary(int customerId)
     {
         var result = await _accountRepo.GetAccountSummary(customerId);
 
@@ -69,7 +69,7 @@ public class CustomerService : ICustomerService
         {
             throw new Exception("Recipent account with given account.no does not exist.");
         }
-        
+
         // check limits and funds
         if (details.Amount < 1)
         {
@@ -82,7 +82,7 @@ public class CustomerService : ICustomerService
 
         // withdraw from senders account
         var senderBalance = await _accountRepo.SubAmountFromAccountBalanceAsync(details.From_Account, details.Amount);
-        
+
         // create transaction for senders account
         var senderTransaction = new TransactionForCreationDto()
         {
@@ -97,7 +97,7 @@ public class CustomerService : ICustomerService
 
         // deposit to recipent account
         var recipentBalance = await _accountRepo.AddAmountToAccountBalanceAsync(details.To_Account, details.Amount);
-        
+
         // create transaction for recipent account
         var recipentTransaction = new TransactionForCreationDto()
         {
