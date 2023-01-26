@@ -2,8 +2,11 @@
 using JensenBank.Infrastructure.Context;
 using JensenBank.Infrastructure.Interfaces;
 using JensenBank.Infrastructure.Repos;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace JensenBank.Infrastructure
 {
@@ -13,7 +16,7 @@ namespace JensenBank.Infrastructure
         {
             services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
             services.AddSingleton<DapperContext>();
-            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+            services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddScoped<IPasswordEncryption, PasswordEncryption>();
             services.AddScoped<ICustomerRepo, CustomerRepo>();
             services.AddScoped<IAccountRepo, AccountRepo>();
@@ -21,7 +24,28 @@ namespace JensenBank.Infrastructure
             services.AddScoped<IDispositionRepo, DispositionRepo>();
             services.AddScoped<ILoanRepo, LoanRepo>();
             services.AddScoped<ITransactionRepo, TransactionRepo>();
+            services.AddAuth(configuration);
 
+            return services;
+        }
+
+        public static IServiceCollection AddAuth(this IServiceCollection services, ConfigurationManager configuration)
+        {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+                         .GetBytes(configuration.GetSection("JwtSettings:Secret").Value)),
+                    ValidIssuer = configuration.GetSection("JwtSettings:Issuer").Value,
+                    ValidAudience = configuration.GetSection("JwtSettings:Audience").Value
+                };
+        });
             return services;
         }
     }

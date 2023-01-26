@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JensenBank.Application", "J
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JensenBank.Infrastructure", "JensenBank.Repository\JensenBank.Infrastructure.csproj", "{4A6A3EAA-54C6-4CD0-892B-DE3366ADDFBA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JensenBank.UnitTests", "JensenBank.UnitTests\JensenBank.UnitTests.csproj", "{34813358-749C-4726-8E23-A0EB28894170}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{4A6A3EAA-54C6-4CD0-892B-DE3366ADDFBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A6A3EAA-54C6-4CD0-892B-DE3366ADDFBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A6A3EAA-54C6-4CD0-892B-DE3366ADDFBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34813358-749C-4726-8E23-A0EB28894170}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34813358-749C-4726-8E23-A0EB28894170}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34813358-749C-4726-8E23-A0EB28894170}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34813358-749C-4726-8E23-A0EB28894170}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

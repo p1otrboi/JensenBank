@@ -20,7 +20,7 @@ public class CustomerService : ICustomerService
         _transactionRepo = transactionRepo;
     }
 
-    public async Task<List<AccountSummaryDto>> GetAccountSummary(int customerId)
+    public async Task <List<AccountSummaryDto>> GetAccountSummary(int customerId)
     {
         var result = await _accountRepo.GetAccountSummary(customerId);
 
@@ -56,23 +56,34 @@ public class CustomerService : ICustomerService
     {
         var accounts = await _accountRepo.GetAccountSummary(customerId);
 
-        // check ownership of account
+        // check ownership of given customer account.no
         if (!accounts.Any(x => x.AccountId == details.From_Account))
         {
             throw new Exception("Transaction failed. This is not your bank account.");
         }
+
+        // account lookup
         var recipentAccount = await _accountRepo.GetByIdAsync(details.To_Account);
-        if (recipentAccount is null) throw new Exception("Recipent account with given account.no does not exist.");
-        // check funds
-        if (details.Amount < 1) throw new Exception("Transaction failed. Smallest amount to transfer is $1.");
+
+        if (recipentAccount is null)
+        {
+            throw new Exception("Recipent account with given account.no does not exist.");
+        }
+        
+        // check limits and funds
+        if (details.Amount < 1)
+        {
+            throw new Exception("Transaction failed. Smallest amount to transfer is $1.");
+        }
         if (details.Amount > accounts.First(x => x.AccountId == details.From_Account).Balance)
         {
             throw new Exception("Non-sufficent funds.");
         }
 
-        // withdraw from customer account
+        // withdraw from senders account
         var senderBalance = await _accountRepo.SubAmountFromAccountBalanceAsync(details.From_Account, details.Amount);
-        // create transaction
+        
+        // create transaction for senders account
         var senderTransaction = new TransactionForCreationDto()
         {
             AccountId = details.From_Account,
@@ -84,9 +95,10 @@ public class CustomerService : ICustomerService
         };
         await _transactionRepo.AddAsync(senderTransaction);
 
-        // deposit to account
+        // deposit to recipent account
         var recipentBalance = await _accountRepo.AddAmountToAccountBalanceAsync(details.To_Account, details.Amount);
-        // create transaction
+        
+        // create transaction for recipent account
         var recipentTransaction = new TransactionForCreationDto()
         {
             AccountId = details.To_Account,
