@@ -15,13 +15,15 @@ namespace JensenBank.Infrastructure.Repos
             _context = context;
         }
 
-        public async Task<Loan> GetByIdAsync(int id)
+        public async Task<Loan> GetByIdAsync(int loanId)
         {
-            var sql = $"SELECT * FROM Loans WHERE LoanId = {id}";
+            var sp = "LoanGetById";
+            var param = new DynamicParameters();
+            param.Add("@LoanId", loanId);
 
             using (var db = _context.CreateConnection())
             {
-                var loan = await db.QuerySingleOrDefaultAsync<Loan>(sql);
+                var loan = await db.QuerySingleOrDefaultAsync<Loan>(sp, param, commandType: CommandType.StoredProcedure);
 
                 return loan;
             }
@@ -32,7 +34,6 @@ namespace JensenBank.Infrastructure.Repos
             decimal payments = loan.Amount / loan.Duration_Months;
 
             var sp = "CreateLoan";
-
             var param = new DynamicParameters();
 
             param.Add("@AccountId", loan.AccountId);

@@ -18,7 +18,6 @@ public class TransactionRepo : ITransactionRepo
     public async Task<int> AddAsync(TransactionForCreationDto trans)
     {
         var sp = "CreateTransaction";
-
         var param = new DynamicParameters();
 
         param.Add("@AccountId", trans.AccountId);

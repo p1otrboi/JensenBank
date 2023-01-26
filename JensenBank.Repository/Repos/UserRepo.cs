@@ -3,6 +3,7 @@ using JensenBank.Core.Domain;
 using JensenBank.Core.Dto;
 using JensenBank.Infrastructure.Context;
 using JensenBank.Infrastructure.Interfaces;
+using System.Data;
 
 namespace JensenBank.Infrastructure.Repos;
 
@@ -16,14 +17,17 @@ public class UserRepo : IUserRepo
 
     public async Task<int> AddAsync(DbUserForCreationDto user)
     {
-        var sql = $"INSERT INTO Users (CustomerId, Username, PW_Hash, PW_Salt, User_RoleId)" +
-            $"VALUES ({user.CustomerId}, '{user.Username}', '{user.PW_Hash}', '{user.PW_Salt}', " +
-            $"{user.User_RoleId}) " +
-            $"SELECT Scope_identity()";
+        var sp = "UserAdd";
+        var param = new DynamicParameters();
+        param.Add("@CustomerId", user.CustomerId);
+        param.Add("@Username", user.Username);
+        param.Add("@PW_Hash", user.PW_Hash);
+        param.Add("@PW_Salt", user.PW_Salt);
+        param.Add("@User_RoleId", user.User_RoleId);
 
         using (var db = _context.CreateConnection())
         {
-            var id = await db.ExecuteScalarAsync<int>(sql);
+            var id = await db.ExecuteScalarAsync<int>(sp, param, commandType: CommandType.StoredProcedure);
 
             return id;
         }
@@ -31,13 +35,13 @@ public class UserRepo : IUserRepo
 
     public async Task<User> GetByUsername(string username)
     {
-        var sql = $"SELECT UserId, CustomerId, Username, PW_Hash, PW_Salt, UR.Role_Type " +
-            $"FROM Users U INNER JOIN User_Roles UR ON U.User_RoleId = UR.User_RoleId " +
-            $"WHERE Username = '{username}'";
+        var sp = "UserGetByUsername";
+        var param = new DynamicParameters();
+        param.Add("@Username", username);
 
         using (var db = _context.CreateConnection())
         {
-            var user = await db.QuerySingleOrDefaultAsync<User>(sql);
+            var user = await db.QuerySingleOrDefaultAsync<User>(sp, param, commandType: CommandType.StoredProcedure);
 
             return user;
         }

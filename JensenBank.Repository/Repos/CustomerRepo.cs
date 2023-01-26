@@ -2,6 +2,7 @@
 using JensenBank.Infrastructure.Context;
 using JensenBank.Infrastructure.Interfaces;
 using Models.Domain;
+using System.Data;
 
 namespace JensenBank.Infrastructure.Repos;
 
@@ -14,28 +15,38 @@ public class CustomerRepo : ICustomerRepo
     }
     public async Task<int> AddAsync(CustomerForCreationDto customer)
     {
-        var sql = $"INSERT INTO Customers (Gender, Givenname, Surname, Streetaddress, City, Zipcode, " +
-            $"Country, CountryCode, Birthday, Telephonecountrycode, Telephonenumber, Emailaddress) " +
-            $"VALUES ('{customer.Gender}', '{customer.Givenname}', '{customer.Surname}', '{customer.Streetaddress}', " +
-            $"'{customer.City}', '{customer.Zipcode}', '{customer.Country}', '{customer.CountryCode}', '{customer.Birthday}', " +
-            $"'{customer.Telephonecountrycode}', '{customer.Telephonenumber}', '{customer.Emailaddress}') " +
-            $"SELECT Scope_identity()";
+        var sp = "CustomerAdd";
+        var param = new DynamicParameters();
+        param.Add("@Gender", customer.Gender);
+        param.Add("@Givenname", customer.Givenname);
+        param.Add("@Surname", customer.Surname);
+        param.Add("@Streetaddress", customer.Streetaddress);
+        param.Add("@City", customer.City);
+        param.Add("@Zipcode", customer.Zipcode);
+        param.Add("@Country", customer.Country);
+        param.Add("@CountryCode", customer.CountryCode);
+        param.Add("@Birthday", customer.Birthday);
+        param.Add("@Telephonecountrycode", customer.Telephonecountrycode);
+        param.Add("@Telephonenumber", customer.Telephonenumber);
+        param.Add("@Emailaddress", customer.Emailaddress);
 
         using (var db = _context.CreateConnection())
         {
-            var id = await db.ExecuteScalarAsync<int>(sql);
+            var id = await db.ExecuteScalarAsync<int>(sp, param, commandType: CommandType.StoredProcedure);
 
             return id;
         }
     }
 
-    public async Task<Customer> GetByIdAsync(int id)
+    public async Task<Customer> GetByIdAsync(int customerId)
     {
-        var sql = $"SELECT * FROM Customers WHERE CustomerId = {id}";
+        var sp = "CustomerGetById";
+        var param = new DynamicParameters();
+        param.Add("@CustomerId", customerId);
 
         using (var db = _context.CreateConnection())
         {
-            var user = await db.QuerySingleOrDefaultAsync<Customer>(sql);
+            var user = await db.QuerySingleOrDefaultAsync<Customer>(sp, param, commandType: CommandType.StoredProcedure);
 
             return user;
         }

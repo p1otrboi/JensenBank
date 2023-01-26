@@ -3,6 +3,7 @@ using JensenBank.Core.Dto;
 using JensenBank.Infrastructure.Context;
 using JensenBank.Infrastructure.Interfaces;
 using Models.Domain;
+using System.Data;
 
 namespace JensenBank.Infrastructure.Repos;
 
@@ -16,35 +17,40 @@ public class AccountRepo : IAccountRepo
     }
     public async Task<decimal> GetBalanceAsync(int accountId)
     {
-        var sql = $"SELECT Balance FROM Accounts WHERE AccountId = {accountId}";
+        var sp = "AccountGetBalance";
+        var param = new DynamicParameters();
+        param.Add("@AccountId", accountId);
 
         using (var db = _context.CreateConnection())
         {
-            var balance = await db.QueryFirstOrDefaultAsync<decimal>(sql);
+            var balance = await db.QueryFirstOrDefaultAsync<decimal>(sp, param, commandType: CommandType.StoredProcedure);
 
             return balance;
         }
     }
-    public async Task<Account> GetByIdAsync(int id)
+    public async Task<Account> GetByIdAsync(int accountId)
     {
-        var sql = $"SELECT * FROM Accounts WHERE AccountId = {id}";
+        var sp = "AccountGetById";
+        var param = new DynamicParameters();
+        param.Add("@AccountId", accountId);
 
         using (var db = _context.CreateConnection())
         {
-            var account = await db.QuerySingleOrDefaultAsync<Account>(sql);
+            var account = await db.QuerySingleOrDefaultAsync<Account>(sp, param, commandType: CommandType.StoredProcedure);
 
             return account;
         }
     }
     public async Task<int> AddAsync(AccountForCreationDto account)
     {
-        var sql = $"INSERT INTO Accounts (Frequency, Created, Balance, AccountTypesId) " +
-            $"VALUES ('{account.Frequency}', CONVERT(VARCHAR(10), getdate(), 111), 0, {account.AccountTypeId}) " +
-            $"SELECT Scope_identity()";
+        var sp = "AccountGetById";
+        var param = new DynamicParameters();
+        param.Add("@Frequency", account.Frequency);
+        param.Add("@AccountTypesId", account.AccountTypeId);
 
         using (var db = _context.CreateConnection())
         {
-            var id = await db.ExecuteScalarAsync<int>(sql);
+            var id = await db.ExecuteScalarAsync<int>(sp, param, commandType: CommandType.StoredProcedure);
 
             return id;
         }
@@ -52,13 +58,14 @@ public class AccountRepo : IAccountRepo
 
     public async Task<int> SetAccountType(int accountId, int accountTypeId)
     {
-        var sql = $"UPDATE Accounts SET AccountTypesId = {accountTypeId} " +
-            $"WHERE AccountId = {accountId} " +
-            $"SELECT Scope_identity()";
+        var sp = "AccountSetType";
+        var param = new DynamicParameters();
+        param.Add("@AccountId", accountId);
+        param.Add("@AccountTypesId", accountTypeId);
 
         using (var db = _context.CreateConnection())
         {
-            var id = await db.ExecuteScalarAsync<int>(sql);
+            var id = await db.ExecuteScalarAsync<int>(sp, param, commandType: CommandType.StoredProcedure);
 
             return id;
         }
@@ -66,13 +73,14 @@ public class AccountRepo : IAccountRepo
 
     public async Task<decimal> AddAmountToAccountBalanceAsync(int accountId, decimal amount)
     {
-        var sql = $"UPDATE Accounts SET Balance = Balance + {amount} " +
-            $"WHERE AccountId = {accountId} " +
-            $"SELECT Balance FROM Accounts WHERE AccountId = {accountId}";
+        var sp = "AccountAddBalance";
+        var param = new DynamicParameters();
+        param.Add("@AccountId", accountId);
+        param.Add("@Amount", amount);
 
         using (var db = _context.CreateConnection())
         {
-            var balance = await db.QuerySingleAsync<decimal>(sql);
+            var balance = await db.QuerySingleAsync<decimal>(sp, param, commandType: CommandType.StoredProcedure);
 
             return balance;
         }
@@ -80,13 +88,14 @@ public class AccountRepo : IAccountRepo
 
     public async Task<decimal> SubAmountFromAccountBalanceAsync(int accountId, decimal amount)
     {
-        var sql = $"UPDATE Accounts SET Balance = Balance - {amount} " +
-            $"WHERE AccountId = {accountId} " +
-            $"SELECT Balance FROM Accounts WHERE AccountId = {accountId}";
+        var sp = "AccountSubBalance";
+        var param = new DynamicParameters();
+        param.Add("@AccountId", accountId);
+        param.Add("@Amount", amount);
 
         using (var db = _context.CreateConnection())
         {
-            var balance = await db.QuerySingleAsync<decimal>(sql);
+            var balance = await db.QuerySingleAsync<decimal>(sp, param, commandType: CommandType.StoredProcedure);
 
             return balance;
         }
@@ -94,14 +103,13 @@ public class AccountRepo : IAccountRepo
 
     public async Task<List<AccountSummaryDto>> GetAccountSummary(int customerId)
     {
-        var sql = $"SELECT A.AccountId, A.Balance, Acct.TypeName as 'Account_Type' FROM Accounts A " +
-            $"INNER JOIN Dispositions D ON D.AccountId = A.AccountId " +
-            $"INNER JOIN AccountTypes AccT ON AccT.AccountTypeId = A.AccountTypesId " +
-            $"WHERE D.CustomerId = {customerId}";
+        var sp = "AccountGetSummary";
+        var param = new DynamicParameters();
+        param.Add("@CustomerId", customerId);
 
         using (var db = _context.CreateConnection())
         {
-            var result = await db.QueryAsync<AccountSummaryDto>(sql);
+            var result = await db.QueryAsync<AccountSummaryDto>(sp, param, commandType: CommandType.StoredProcedure);
 
             return result.ToList();
         }
@@ -109,18 +117,17 @@ public class AccountRepo : IAccountRepo
 
     public async Task<AccountTransactionsDto> GetAccountWithTransactions(int accountId)
     {
-        var sql = $"SELECT * FROM Accounts " +
-            $"INNER JOIN Transactions ON Transactions.AccountId = Accounts.AccountId " +
-            $"WHERE Accounts.AccountId = {accountId} " +
-            $"ORDER BY Transactions.TransactionId DESC";
+        var sp = "AccountGetWithTransactions";
+        var param = new DynamicParameters();
+        param.Add("@AccountId", accountId);
 
         using (var db = _context.CreateConnection())
         {
             var lookup = new Dictionary<int, AccountTransactionsDto>();
 
-            var result = await db.QueryAsync<AccountTransactionsDto, Transaction, AccountTransactionsDto>(sql, (account, transaction) =>
+            var result = await db.QueryAsync<AccountTransactionsDto, Transaction, AccountTransactionsDto>(sp, (account, transaction) =>
             {
-                if (!lookup.TryGetValue(account.AccountId, out AccountTransactionsDto a))
+                if (!lookup.TryGetValue(account.AccountId, out AccountTransactionsDto? a))
                     lookup.Add(account.AccountId, a = account);
 
                 if (account.Transactions is null)
@@ -129,7 +136,7 @@ public class AccountRepo : IAccountRepo
                 a.Transactions.Add(transaction);
 
                 return a;
-            }, splitOn: "TransactionId");
+            }, param, splitOn: "TransactionId", commandType: CommandType.StoredProcedure);
 
             return result.First();
         }
