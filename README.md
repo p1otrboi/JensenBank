@@ -6,9 +6,11 @@
 
 - Clean Archtitecture
 - .NET 7
-- SQL Server
+- SQL Server 2019
+- Asynchronous methods
 - Stored Procedures
 - Dapper
 - JWT for authentication and role based authorization
+- Password encryption/decryption
 - Swagger for documentation
 - Unit testing with XUnit and MOQ
