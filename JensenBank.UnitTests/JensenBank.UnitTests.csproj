@@ -24,9 +24,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JensenBank.Core\JensenBank.Core.csproj" />
-    <ProjectReference Include="..\JensenBank.Repository\JensenBank.Infrastructure.csproj" />
-    <ProjectReference Include="..\JensenBank.Service\JensenBank.Application.csproj" />
-    <ProjectReference Include="..\JensenBank\JensenBank.WebApi.csproj" />
+    <ProjectReference Include="..\JensenBank.Infrastructure\JensenBank.Infrastructure.csproj" />
+    <ProjectReference Include="..\JensenBank.Application\JensenBank.Application.csproj" />
+    <ProjectReference Include="..\JensenBank.WebApi\JensenBank.WebApi.csproj" />
   </ItemGroup>
 
 </Project>

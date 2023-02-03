@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JensenBank.WebApi", "JensenBank\JensenBank.WebApi.csproj", "{FA32B7C8-7F13-426F-AE12-A95B059DDFDC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JensenBank.WebApi", "JensenBank.WebApi\JensenBank.WebApi.csproj", "{FA32B7C8-7F13-426F-AE12-A95B059DDFDC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JensenBank.Core", "JensenBank.Core\JensenBank.Core.csproj", "{08CDEC78-5162-4481-A980-72FBA3023516}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JensenBank.Application", "JensenBank.Service\JensenBank.Application.csproj", "{B3AC2C68-D46D-49EA-AFBE-F534F6300474}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JensenBank.Application", "JensenBank.Application\JensenBank.Application.csproj", "{B3AC2C68-D46D-49EA-AFBE-F534F6300474}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JensenBank.Infrastructure", "JensenBank.Repository\JensenBank.Infrastructure.csproj", "{4A6A3EAA-54C6-4CD0-892B-DE3366ADDFBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JensenBank.Infrastructure", "JensenBank.Infrastructure\JensenBank.Infrastructure.csproj", "{4A6A3EAA-54C6-4CD0-892B-DE3366ADDFBA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JensenBank.UnitTests", "JensenBank.UnitTests\JensenBank.UnitTests.csproj", "{34813358-749C-4726-8E23-A0EB28894170}"
 EndProject
